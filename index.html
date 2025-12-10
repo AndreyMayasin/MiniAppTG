@@ -6,9 +6,58 @@
   <title>Document</title>
 </head>
 <body>
-  
-  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--tg-theme-bg-color);
+      color: var(--tg-theme-text-color);
+    }
+  </style>
+  <div>
+    <p id="first_name_user"></p>
+    <p id="user_name"></p>
+    <p>Текущая тема телеграмм</p>
+    <br>
+    <p id="theme"></p>
+    <button id="btn"></button>
+  </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <script>
+    var webapp_tg = Telegram.WebApp;
+    webapp_tg.ready();
+    webapp_tg.expand()
+    
+    var user = webapp_tg.initDataUnsafe.user;
+    var sheme = webapp_tg.colorSheme;
+
+    var first_name = user.first_name;
+    var user_name = user.username;
+
+    document.getElementById("first_name_user").innerText = "Привет, " + first_name;
+    document.getElementById("user_name").innerText = "Твой username: " + user_name;
+
+    var theme;
+
+    if (sheme === "light") theme = "Светлая";
+    if (sheme === "dark") theme = "Темная";
+    if (sheme === "system") theme = "Кастомная";
+
+    document.getElementById("theme").innerText = theme;
+
+    var main_button = webapp_tg.MainButton;
+    main_button.setText("Готово");
+    main_button.color = "#0088cc";
+    main_button.enable();
+
+    main_button.onClick(() => {
+      webapp_tg.close();
+    });
+
+    main_button.show()
+
+  </script>
 </body>
 </html>
